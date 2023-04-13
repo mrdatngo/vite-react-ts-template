@@ -1,21 +1,8 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import DefaultLayout from './layout/DefaultLayout';
-import Login from './pages/login/LoginPage';
-import Page404 from './pages/result/Page404';
+import browserRouters from './routers/router';
 
-const router = createBrowserRouter([
-  {
-    path: '/login',
-    element: <Login />,
-    errorElement: 'Page not found',
-  },
-  {
-    path: '/*',
-    element: <DefaultLayout />,
-    errorElement: <Page404 />,
-  },
-]);
+const routers = createBrowserRouter(browserRouters);
 
 export default function App() {
-  return <RouterProvider router={router} />;
+  return <RouterProvider router={routers} />;
 }

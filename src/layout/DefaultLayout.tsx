@@ -1,52 +1,33 @@
-import React, { useState } from 'react';
-import {
-  DesktopOutlined,
-  FileOutlined,
-  PieChartOutlined,
-  TeamOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
+import React, { useEffect, useState } from 'react';
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { Outlet, useNavigate } from 'react-router-dom';
 
-const { Header, Content, Footer, Sider } = Layout;
+import { navRoutes as routes, GetMenu } from '../routers/router';
+
+const { Content, Footer, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
 
-function getItem(
-  label: React.ReactNode,
-  key: React.Key,
-  icon?: React.ReactNode,
-  children?: MenuItem[]
-): MenuItem {
-  return {
-    key,
-    icon,
-    children,
-    label,
-  } as MenuItem;
-}
-
-const items: MenuItem[] = [
-  getItem('Option 1', '1', <PieChartOutlined />),
-  getItem('Option 2', '2', <DesktopOutlined />),
-  getItem('User', 'sub1', <UserOutlined />, [
-    getItem('Tom', '3'),
-    getItem('Bill', '4'),
-    getItem('Alex', '5'),
-  ]),
-  getItem('Team', 'sub2', <TeamOutlined />, [
-    getItem('Team 1', '6'),
-    getItem('Team 2', '8'),
-  ]),
-  getItem('Files', '9', <FileOutlined />),
-];
-
 const DefaultLayout: React.FC = () => {
+  const [items, setItems] = useState<MenuItem[]>([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const items = GetMenu(routes);
+    console.log(items);
+    setItems(items);
+  }, []);
+
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
+  const onClick: MenuProps['onClick'] = (e) => {
+    console.log(e);
+    navigate(e.keyPath[0]);
+  };
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
@@ -61,16 +42,18 @@ const DefaultLayout: React.FC = () => {
             margin: 16,
             background: 'rgba(255, 255, 255, 0.2)',
           }}
-        />
+        >
+          LOGO
+        </div>
         <Menu
+          onClick={onClick}
           theme='dark'
-          defaultSelectedKeys={['1']}
+          defaultSelectedKeys={[location.pathname]}
           mode='inline'
           items={items}
         />
       </Sider>
       <Layout className='site-layout'>
-        <Header style={{ padding: 0, background: colorBgContainer }} />
         <Content style={{ margin: '0 16px' }}>
           <Breadcrumb style={{ margin: '16px 0' }}>
             <Breadcrumb.Item>User</Breadcrumb.Item>
@@ -83,7 +66,7 @@ const DefaultLayout: React.FC = () => {
               background: colorBgContainer,
             }}
           >
-            Bill is a cat.
+            <Outlet />
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>
