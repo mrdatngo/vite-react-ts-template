@@ -1,17 +1,50 @@
 import React from 'react';
-import { Button, Card, Checkbox, Form, Input, Space } from 'antd';
+import { Button, Card, Checkbox, Form, Input, notification, Space } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
+import { login } from '../../apis/auth';
+import { saveToken, saveUserInfo } from '../../helpers/storage';
 import './style.css';
 
-const onFinish = (values: any) => {
-  console.log('Success:', values);
-};
-
-const onFinishFailed = (errorInfo: any) => {
-  console.log('Failed:', errorInfo);
-};
-
 const LoginPage: React.FC = () => {
+  const navigate = useNavigate();
+
+  const onFinish = (values: any) => {
+    login({
+      username: values.username,
+      password: values.password,
+    })
+      .then((data) => {
+        saveToken(data.token);
+        saveUserInfo({
+          username: data.username,
+        });
+        notification.success({
+          message: 'Login',
+          description: 'Successful!',
+        });
+        navigate('/');
+      })
+      .catch((err) => {
+        console.log(err);
+        let errMessage = 'Something went wrong!';
+        if (err.message) {
+          errMessage = err.message;
+        }
+        if (err.response?.data?.message) {
+          errMessage = err.response.data.message;
+        }
+        notification.error({
+          message: 'Login',
+          description: errMessage,
+        });
+      });
+  };
+
+  const onFinishFailed = (errorInfo: any) => {
+    console.log('Failed:', errorInfo);
+  };
+
   return (
     <Space direction='horizontal' className='login-container'>
       <Card
