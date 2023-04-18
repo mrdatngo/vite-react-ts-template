@@ -28,9 +28,21 @@ const getUserInfo = (): IAccountInfo | null => {
   return null;
 };
 
+const clearUserInfo = () => {
+  localStorage.removeItem(USER_INFO_KEY);
+};
+
 const IsLoggedIn = (): boolean => {
   const token = getToken();
   return token != '' && token != null;
 };
 
-export { saveToken, getToken, saveUserInfo, getUserInfo, IsLoggedIn };
+export {
+  saveToken,
+  getToken,
+  clearToken,
+  saveUserInfo,
+  getUserInfo,
+  clearUserInfo,
+  IsLoggedIn,
+};

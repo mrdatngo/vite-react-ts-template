@@ -16,9 +16,6 @@ const LoginPage: React.FC = () => {
     })
       .then((data) => {
         saveToken(data.token);
-        saveUserInfo({
-          username: data.username,
-        });
         notification.success({
           message: 'Login',
           description: 'Successful!',

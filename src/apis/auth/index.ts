@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { BASE_URL } from '..';
+import { IAccountInfo } from '../../types/account';
 
 interface ILoginParam {
   username: string;
@@ -25,6 +26,13 @@ const login = (param: ILoginParam) => {
   });
 };
 
+const getAccountInfo = () => {
+  return axios.get(`${BASE_URL}/api/v1/account/detail`).then((res) => {
+    const resData: IAccountInfo = res.data as IAccountInfo;
+    return resData;
+  });
+};
+
 export type { ILoginParam, ILoginResponse };
 
-export { login };
+export { login, getAccountInfo };
