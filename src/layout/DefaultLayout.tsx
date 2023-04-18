@@ -25,7 +25,6 @@ const DefaultLayout: React.FC = () => {
   } = theme.useToken();
 
   const onClick: MenuProps['onClick'] = (e) => {
-    console.log(e);
     navigate(e.keyPath[0]);
   };
 

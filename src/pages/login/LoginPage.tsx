@@ -26,7 +26,6 @@ const LoginPage: React.FC = () => {
         navigate('/');
       })
       .catch((err) => {
-        console.log(err);
         let errMessage = 'Something went wrong!';
         if (err.message) {
           errMessage = err.message;
