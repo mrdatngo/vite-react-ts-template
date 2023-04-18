@@ -23,12 +23,12 @@ const navRoutes: IRoute[] = [
     icon: <TeamOutlined />,
     children: [
       {
-        path: 'users/create',
+        path: '/users/create',
         title: 'Create User',
         component: <CreateUser />,
       },
       {
-        path: 'users/list',
+        path: '/users/list',
         title: 'List Users',
         component: <ListUser />,
       },
@@ -40,7 +40,7 @@ const navRoutes: IRoute[] = [
     icon: <UserOutlined />,
     children: [
       {
-        path: 'account/profile',
+        path: '/account/profile',
         title: 'Profile',
         component: <Profile />,
       },
