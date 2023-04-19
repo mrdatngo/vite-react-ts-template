@@ -2,6 +2,7 @@ import { TeamOutlined, UserOutlined } from '@ant-design/icons';
 import { MenuProps } from 'antd';
 import { RouteObject } from 'react-router-dom';
 import Profile from '../app-components/account-profile/AccountProfile';
+import { Counter } from '../app-components/counter/Counter';
 import CreateUser from '../app-components/users-management/create-user/CreateUser';
 import ListUser from '../app-components/users-management/list-user/ListUser';
 import DefaultLayout from '../layout/DefaultLayout';
@@ -45,6 +46,12 @@ const navRoutes: IRoute[] = [
         component: <Profile />,
       },
     ],
+  },
+  {
+    path: 'counter',
+    title: 'Counter',
+    icon: <UserOutlined />,
+    component: <Counter />,
   },
 ];
 
