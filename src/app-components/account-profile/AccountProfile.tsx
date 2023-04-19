@@ -1,28 +1,36 @@
+import { accountSelector } from '@/_redux/features/auth';
 import { UserOutlined } from '@ant-design/icons';
-import { Avatar, Badge, Space, Tabs, TabsProps, Typography } from 'antd';
+import {
+  Avatar,
+  Badge,
+  Skeleton,
+  Space,
+  Tabs,
+  TabsProps,
+  Typography,
+} from 'antd';
 import React, { useEffect, useState } from 'react';
-import { getAccountInfo } from '../../apis/auth';
-import { IAccountInfo } from '../../types/account';
+
 import ProfileDetail from './profile-detail/ProfileDetail';
 
 const { Text } = Typography;
 
 const AccountProfile: React.FC = () => {
-  const [account, setAccount] = useState<IAccountInfo>();
+  const { loading, accountData: account } = accountSelector();
   const [tabItems, setTabItems] = useState<TabsProps['items']>();
 
   useEffect(() => {
-    getAccountInfo().then((acc) => {
-      setAccount(acc);
-    });
-  }, []);
+    const profileDetailComp = loading ? (
+      <Skeleton />
+    ) : (
+      <ProfileDetail account={account} />
+    );
 
-  useEffect(() => {
     const items: TabsProps['items'] = [
       {
         key: '1',
         label: `Detail`,
-        children: <ProfileDetail account={account} />,
+        children: profileDetailComp,
       },
       {
         key: '2',
@@ -31,7 +39,7 @@ const AccountProfile: React.FC = () => {
       },
     ];
     setTabItems(items);
-  }, [account]);
+  }, [loading, account]);
 
   const onChange = (key: string) => {
     console.log(key);

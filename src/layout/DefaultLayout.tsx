@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Dropdown, MenuProps, Space, Typography } from 'antd';
+import { Button, Dropdown, MenuProps, Space } from 'antd';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { Header } from 'antd/es/layout/layout';
 import { LogoutOutlined } from '@ant-design/icons';
 
+import { accountSelector, getAccountInfoAction } from '@/_redux/features/auth';
 import { navRoutes as routes, GetMenu } from '../routers/router';
+
 import avt from '../assets/imgs/avatar.png';
 import usa from '../assets/icons/usa.svg';
+import { useAppDispatch } from '@/_redux/hooks';
 
 const { Content, Footer, Sider } = Layout;
 
@@ -15,15 +18,16 @@ type MenuItem = Required<MenuProps>['items'][number];
 
 const DefaultLayout: React.FC = () => {
   const [items, setItems] = useState<MenuItem[]>([]);
+  const { accountData: account } = accountSelector();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getAccountInfoAction());
+  }, []);
 
   const onLogout = () => {
     console.log('logout');
-  };
-
-  const userInfo = {
-    loading: false,
-    name: 'admin',
   };
 
   const breadcrumbs = location.pathname
@@ -33,7 +37,7 @@ const DefaultLayout: React.FC = () => {
   const headerDropdownitems: MenuProps['items'] = [
     {
       key: '0',
-      label: userInfo.name,
+      label: account?.username,
     },
     {
       key: '1',
