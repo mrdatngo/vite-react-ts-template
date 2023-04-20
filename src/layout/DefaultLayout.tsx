@@ -132,7 +132,7 @@ const DefaultLayout: React.FC = () => {
             </ErrorBoundary>
           </div>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>
+        <Footer className='text-center'>
           Ant Design ©2023 Created by Ant UED
         </Footer>
       </Layout>

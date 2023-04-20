@@ -133,7 +133,7 @@ const CreateUser = () => {
             noStyle
             rules={[{ required: true, message: 'Street is required' }]}
           >
-            <Input style={{ width: '50%' }} placeholder='Input street' />
+            <Input placeholder='Input street' />
           </Form.Item>
         </Space.Compact>
       </Form.Item>
