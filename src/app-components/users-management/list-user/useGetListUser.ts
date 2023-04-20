@@ -1,24 +1,18 @@
-import { useEffect, useState } from 'react';
-import { fetchUsers } from '../../../apis/users';
+import { getUsersAction, usersListSelector } from '@/_redux/features/user';
+import { useAppDispatch } from '@/_redux/hooks';
+import { useEffect } from 'react';
 import { IUserInfo } from '../../../types/users';
 
 export default function useGetListUser(): [
   boolean,
-  IUserInfo[],
+  IUserInfo[] | undefined,
   (searchKey: string) => void
 ] {
-  const [listUser, setListUser] = useState<IUserInfo[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const { loading, list: listUser } = usersListSelector();
+  const dispatch = useAppDispatch();
 
   const getUsers = (searchKey: string) => {
-    setLoading(true);
-    fetchUsers({ searchKey })
-      .then((data) => {
-        setListUser(data.list);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    dispatch(getUsersAction({ searchKey }));
   };
 
   useEffect(() => {
