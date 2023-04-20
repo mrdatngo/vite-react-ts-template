@@ -1,14 +1,19 @@
+import { lazy } from 'react';
 import { TeamOutlined, UserOutlined } from '@ant-design/icons';
 import { MenuProps } from 'antd';
 import { RouteObject } from 'react-router-dom';
 import Profile from '../app-components/account-profile/AccountProfile';
 import { Counter } from '../app-components/counter/Counter';
-import CreateUser from '../app-components/users-management/create-user/CreateUser';
-import ListUser from '../app-components/users-management/list-user/ListUser';
-import DefaultLayout from '../layout/DefaultLayout';
-import LoginPage from '../pages/login/LoginPage';
 import Page404 from '../pages/result/Page404';
+import DefaultLayout from '../layout/DefaultLayout';
 
+const LoginPage = lazy(() => import('../pages/login/LoginPage'));
+const CreateUser = lazy(
+  () => import('../app-components/users-management/create-user/CreateUser')
+);
+const ListUser = lazy(
+  () => import('../app-components/users-management/list-user/ListUser')
+);
 interface IRoute {
   path: string;
   title: string;
