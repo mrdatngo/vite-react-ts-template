@@ -11,6 +11,7 @@ import { navRoutes as routes, GetMenu } from '../routers/router';
 import avt from '../assets/imgs/avatar.png';
 import usa from '../assets/icons/usa.svg';
 import { useAppDispatch } from '@/_redux/hooks';
+import { ErrorBoundary } from 'react-error-boundary';
 
 const { Content, Footer, Sider } = Layout;
 
@@ -126,7 +127,9 @@ const DefaultLayout: React.FC = () => {
               background: colorBgContainer,
             }}
           >
-            <Outlet />
+            <ErrorBoundary fallback={<div>Something went wrong</div>}>
+              <Outlet />
+            </ErrorBoundary>
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>
