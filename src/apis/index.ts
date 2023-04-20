@@ -23,7 +23,7 @@ axios.interceptors.response.use(undefined, (err) => {
   ) {
     clearUserInfo();
     clearToken();
-    window.location.href = '/login';
+    window.location.href = '/bo/login';
   }
 });
 

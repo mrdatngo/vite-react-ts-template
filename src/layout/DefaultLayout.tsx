@@ -6,20 +6,25 @@ import { Header } from 'antd/es/layout/layout';
 import { LogoutOutlined } from '@ant-design/icons';
 
 import { accountSelector, getAccountInfoAction } from '@/_redux/features/auth';
-import { navRoutes as routes, GetMenu } from '../routers/router';
+import { navRoutes as routes, GetMenu, IRoute } from '../routers/router';
 
 import avt from '../assets/imgs/avatar.png';
 import usa from '../assets/icons/usa.svg';
+import vn from '../assets/icons/vn.png';
 import { useAppDispatch } from '@/_redux/hooks';
 import { ErrorBoundary } from 'react-error-boundary';
+import { useTranslation } from 'react-i18next';
 
 const { Content, Footer, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
 
 const DefaultLayout: React.FC = () => {
+  const { t, i18n } = useTranslation();
   const [items, setItems] = useState<MenuItem[]>([]);
   const { accountData: account } = accountSelector();
+  const [collapsed, setCollapsed] = useState(false);
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -55,13 +60,54 @@ const DefaultLayout: React.FC = () => {
     },
   ];
 
-  useEffect(() => {
-    const items = GetMenu(routes);
-    console.log(items);
-    setItems(items);
-  }, []);
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+  };
 
-  const [collapsed, setCollapsed] = useState(false);
+  const lngDropdownitems: MenuProps['items'] = [
+    {
+      key: '0',
+      label: (
+        <img
+          src={usa}
+          alt='lg'
+          style={{ width: '32px' }}
+          onClick={() => changeLanguage('en')}
+        />
+      ),
+    },
+    {
+      key: '1',
+      label: (
+        <img
+          src={vn}
+          alt='lg'
+          style={{ width: '32px' }}
+          onClick={() => changeLanguage('vi')}
+        />
+      ),
+    },
+  ];
+
+  const translateRouters = (
+    routers: Array<IRoute> | undefined
+  ): Array<IRoute> | undefined => {
+    if (!routers || routers.length <= 0) {
+      return undefined;
+    }
+
+    return routers.map((item) => ({
+      ...item,
+      title: t(item.title),
+      children: translateRouters(item.children),
+    }));
+  };
+
+  useEffect(() => {
+    const items = GetMenu(translateRouters(routes) || []);
+    setItems(items);
+  }, [t]);
+
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -106,7 +152,13 @@ const DefaultLayout: React.FC = () => {
               </Breadcrumb>
               <div style={{ display: 'flex' }}>
                 <div style={{ margin: '8px' }}>
-                  <img src={usa} alt='lg' style={{ width: '32px' }} />
+                  <Dropdown
+                    menu={{ items: lngDropdownitems }}
+                    placement='bottomRight'
+                    arrow
+                  >
+                    <img src={usa} alt='lg' style={{ width: '32px' }} />
+                  </Dropdown>
                 </div>
                 <div style={{ margin: '8px' }}>
                   <Dropdown

@@ -35,7 +35,7 @@ const navRoutes: IRoute[] = [
       },
       {
         path: '/users/list',
-        title: 'List Users',
+        title: 'List User',
         component: <ListUser />,
       },
     ],

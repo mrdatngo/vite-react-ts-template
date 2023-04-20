@@ -7,6 +7,7 @@ import {
   Space,
   notification,
 } from 'antd';
+import { useTranslation } from 'react-i18next';
 import { createAUser } from '../../../apis/users';
 
 const { Option } = Select;
@@ -27,6 +28,8 @@ const tailLayout = {
 };
 
 const CreateUser = () => {
+  const { t } = useTranslation();
+
   const onFinish = (values: any) => {
     createAUser({
       address: values.address,
@@ -38,15 +41,15 @@ const CreateUser = () => {
       .then((res) => {
         if (res.status) {
           notification.success({
-            message: 'Create user',
-            description: 'Successful!',
+            message: t('Create user'),
+            description: t('Successful'),
           });
         }
       })
       .catch((err) => {
         notification.error({
-          message: 'Create user',
-          description: 'Something went wrong!',
+          message: t('Create user'),
+          description: t('Something went wrong'),
         });
       });
   };
@@ -67,27 +70,27 @@ const CreateUser = () => {
     >
       <Form.Item
         name='email'
-        label='E-mail'
+        label={t('E-mail')}
         rules={[
           {
             type: 'email',
-            message: 'The input is not valid E-mail!',
+            message: t('The input is not valid E-mail!'),
           },
           {
             required: true,
-            message: 'Please input your E-mail!',
+            message: t('Please input your E-mail!'),
           },
         ]}
       >
         <Input />
       </Form.Item>
       <Form.Item
-        label='Name'
+        label={t('Name')}
         name='name'
         rules={[
           {
             required: true,
-            message: 'Please input your name!',
+            message: t('Please input your name!'),
           },
         ]}
       >
@@ -95,10 +98,10 @@ const CreateUser = () => {
       </Form.Item>
 
       <Form.Item
-        label='DateOfBirth'
+        label={t('Date Of Birth')}
         name='dateOfBirth'
         rules={[
-          { required: true, message: 'Please input your date of birth!' },
+          { required: true, message: t('Please input your date of birth!') },
         ]}
       >
         <DatePicker format={'YYYY-MM-DD'} />
@@ -106,24 +109,24 @@ const CreateUser = () => {
 
       <Form.Item
         name='gender'
-        label='Gender'
-        rules={[{ required: true, message: 'Please select gender!' }]}
+        label={t('Gender')}
+        rules={[{ required: true, message: t('Please select gender!') }]}
       >
-        <Select placeholder='select your gender'>
+        <Select placeholder={t('Select your gender')}>
           <Option value='male'>Male</Option>
           <Option value='female'>Female</Option>
           <Option value='other'>Other</Option>
         </Select>
       </Form.Item>
 
-      <Form.Item label='Address'>
+      <Form.Item label={t('Address')}>
         <Space.Compact>
           <Form.Item
             name={['address', 'province']}
             noStyle
-            rules={[{ required: true, message: 'Province is required' }]}
+            rules={[{ required: true, message: t('Province is required') }]}
           >
-            <Select placeholder='Select province'>
+            <Select placeholder={t('Select province')}>
               <Option value='HN'>Ha Noi</Option>
               <Option value='HCM'>Tp. Ho Chi Minh</Option>
             </Select>
@@ -131,16 +134,16 @@ const CreateUser = () => {
           <Form.Item
             name={['address', 'street']}
             noStyle
-            rules={[{ required: true, message: 'Street is required' }]}
+            rules={[{ required: true, message: t('Street is required') }]}
           >
-            <Input placeholder='Input street' />
+            <Input placeholder={t('Input street')} />
           </Form.Item>
         </Space.Compact>
       </Form.Item>
 
       <Form.Item {...tailLayout}>
         <Button type='primary' htmlType='submit'>
-          Submit
+          {t('Submit')}
         </Button>
       </Form.Item>
     </Form>
